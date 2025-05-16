@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>LHGChat - ChatGPT bản đơn giản</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+    #chat { border: 1px solid #ccc; padding: 20px; height: 400px; overflow-y: auto; background: #f9f9f9; }
+    .msg { margin: 10px 0; }
+    .user { text-align: right; color: blue; }
+    .bot { text-align: left; color: green; }
+    #inputArea { margin-top: 10px; }
+    input[type=text] { width: 80%; padding: 10px; font-size: 16px; }
+    button { padding: 10px; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <h2>LHGChat</h2>
+  <div id="chat">
+    <div class="msg bot">Chào bạn! Mình là LHGChat, hỏi gì cũng được nhé! 😊</div>
+  </div>
+
+  <div id="inputArea">
+    <input type="text" id="question" placeholder="Nhập câu hỏi..." />
+    <button onclick="sendQuestion()">Gửi</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
