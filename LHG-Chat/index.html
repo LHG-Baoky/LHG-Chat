@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LHChat - Trợ lý AI siêu chuyên nghiệp</title>
+<meta name="description" content="Chatbot AI thông minh như ChatGPT, giao diện đẹp, tối ưu trải nghiệm người dùng." />
+<meta name="author" content="LHChat" />
+<meta name="theme-color" content="#4A90E2" />
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<!-- Style -->
+<link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <div id="app" class="light-mode" role="application" aria-label="Chatbot LHChat">
+
+    <!-- HEADER -->
+    <header class="app-header" role="banner">
+      <div class="logo">
+        <svg aria-hidden="true" viewBox="0 0 512 512" width="40" height="40" fill="#4A90E2" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="256" cy="256" r="256" fill="#4A90E2"/>
+          <path d="M170 170h172v172H170z" fill="#fff"/>
+        </svg>
+        <span class="app-title">LHChat</span>
+      </div>
+      <nav class="nav-actions" aria-label="Tùy chọn">
+        <button id="btn-theme-toggle" aria-label="Chuyển đổi chế độ sáng/tối" title="Chuyển đổi chế độ sáng/tối" class="btn-icon">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="btn-clear-chat" aria-label="Xóa lịch sử chat" title="Xóa lịch sử chat" class="btn-icon">
+          <i class="fas fa-trash"></i>
+        </button>
+        <button id="btn-help" aria-label="Trợ giúp" title="Trợ giúp" class="btn-icon">
+          <i class="fas fa-question-circle"></i>
+        </button>
+      </nav>
+    </header>
+
+    <!-- CHAT AREA -->
+    <main id="chat-container" role="main" aria-live="polite" aria-relevant="additions" tabindex="0">
+      <ul id="chat-log" class="chat-log" aria-label="Lịch sử trò chuyện">
+        <!-- Tin nhắn sẽ được thêm ở đây -->
+        <li class="message bot" role="alert" aria-atomic="true">
+          <div class="avatar" aria-hidden="true">
+            <img src="bot-avatar.png" alt="Avatar bot" />
+          </div>
+          <div class="message-content">
+            <p>Chào bạn! Mình là <strong>LHChat</strong>, hỏi gì cũng được nhé! <span aria-label="Smiling face" role="img">😊</span></p>
+          </div>
+        </li>
+      </ul>
+      <div id="typing-indicator" aria-live="assertive" aria-atomic="true" class="typing-indicator visually-hidden">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="sr-only">Bot đang nhập...</span>
+      </div>
+    </main>
+
+    <!-- FORM INPUT -->
+    <form id="input-area" class="input-area" aria-label="Khu vực nhập tin nhắn" autocomplete="off" spellcheck="false" novalidate>
+      <textarea id="user-input" name="user-input" rows="1" placeholder="Nhập câu hỏi của bạn..." aria-required="true" aria-describedby="input-help"></textarea>
+      <button type="submit" id="send-button" aria-label="Gửi tin nhắn" disabled>
+        <i class="fas fa-paper-plane"></i> Gửi
+      </button>
+    </form>
+    <small id="input-help" class="input-help">Nhấn Enter để gửi, Shift + Enter để xuống dòng.</small>
+
+    <!-- FOOTER -->
+    <footer class="app-footer" role="contentinfo">
+      <p>© 2025 LHChat - Trợ lý AI do bạn tạo ❤️</p>
+      <p>
+        <a href="https://github.com/LHG-Baoky/LHG-Chat" target="_blank" rel="noopener noreferrer" aria-label="Trang GitHub của LHChat">GitHub</a> |
+        <a href="#" id="footer-contact" aria-label="Liên hệ hỗ trợ">Liên hệ</a>
+      </p>
+    </footer>
+
+    <!-- MODAL HELP -->
+    <div id="modal-help" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-help-title" aria-describedby="modal-help-desc">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h2 id="modal-help-title">Trợ giúp sử dụng LHChat</h2>
+          <button id="modal-close" aria-label="Đóng cửa sổ trợ giúp">&times;</button>
+        </header>
+        <div class="modal-body" id="modal-help-desc" tabindex="0">
+          <p>Chào bạn! Đây là LHChat, trợ lý AI thông minh, thân thiện.</p>
+          <ul>
+            <li>Nhập câu hỏi rồi nhấn <kbd>Enter</kbd> để gửi.</li>
+            <li>Nhấn <kbd>Shift + Enter</kbd> để xuống dòng trong ô nhập.</li>
+            <li>Chế độ tối/sáng có thể chuyển đổi bằng biểu tượng mặt trăng.</li>
+            <li>Nhấn nút thùng rác để xóa toàn bộ lịch sử chat.</li>
+          </ul>
+          <p>Nếu có vấn đề hay ý tưởng mới, hãy liên hệ với chúng mình nhé!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    // DOM Elements
+    const app = document.getElementById('app');
+    const chatLog = document.getElementById('chat-log');
+    const inputArea = document.getElementById('input-area');
+    const userInput = document.getElementById('user-input');
+    const sendButton = document.getElementById('send-button');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const btnThemeToggle = document.getElementById('btn-theme-toggle');
+    const btnClearChat = document.getElementById('btn-clear-chat');
+    const btnHelp = document.getElementById('btn-help');
+    const modalHelp = document.getElementById('modal-help');
+    const modalClose = document.getElementById('modal-close');
+
+    // Utils
+    function createMessage(text, sender = 'bot') {
+      const li = document.createElement('li');
+      li.classList.add('message', sender);
+      li.setAttribute('role', 'alert');
+      li.setAttribute('aria-atomic', 'true');
+
+      const avatar = document.createElement('div');
+      avatar.classList.add('avatar');
+      const img = document.createElement('img');
+      img.alt = sender === 'bot' ? 'Avatar bot' : 'Avatar người dùng';
+      img.src = sender === 'bot' ? 'bot-avatar.png' : 'user-avatar.png';
+      avatar.appendChild(img);
+
+      const content = document.createElement('div');
+      content.classList.add('message-content');
+      content.innerHTML = text;
+
+      li.appendChild(avatar);
+      li.appendChild(content);
+
+      return li;
+    }
+
+    // Append message and scroll to bottom
+    function appendMessage(message) {
+      chatLog.appendChild(message);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    // Bot reply simulation (replace with real API call)
+    function botReply(userText) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const responses = [
+            "Mình đang suy nghĩ...",
+            "Bạn hỏi hay đấy!",
+            "Để mình tìm hiểu nhé!",
+            "Rất vui được giúp bạn.",
+            "Bạn có muốn hỏi thêm gì không?"
+          ];
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          resolve(randomResponse);
+        }, 1500 + Math.random() * 1500);
+      });
+    }
+
+    // Typing indicator show/hide
+    function showTyping() {
+      typingIndicator.classList.remove('visually-hidden');
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+    function hideTyping() {
+      typingIndicator.classList.add('visually-hidden');
+    }
+
+    // Enable/Disable send button based on input
+    userInput.addEventListener('input', () => {
+      sendButton.disabled = userInput.value.trim().length === 0;
+      autoResizeTextarea(userInput);
+    });
+
+    // Auto resize textarea
+    function autoResizeTextarea(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+    autoResizeTextarea(userInput);
+
+    // Submit handler
+    inputArea.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      // Add user message
+      appendMessage(createMessage(text, 'user'));
+
+      // Reset input
+      userInput.value = '';
+      sendButton.disabled = true;
+      autoResizeTextarea(userInput);
+
+      // Show typing
+      showTyping();
+
+      // Get bot reply
+      const reply = await botReply(text);
+
+      // Hide typing
+      hideTyping();
+
+      // Add bot reply message
+      appendMessage(createMessage(reply, 'bot'));
+    });
+
+    // Keyboard support for textarea: Enter send, Shift+Enter newline
+    userInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (!sendButton.disabled) {
+          inputArea.dispatchEvent(new Event('submit'));
+        }
+      }
+    });
+
+    // Theme toggle
+    btnThemeToggle.addEventListener('click', () => {
+      if (app.classList.contains('light-mode')) {
+        app.classList.replace('light-mode', 'dark-mode');
+        btnThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        btnThemeToggle.setAttribute('aria-label', 'Chuyển sang chế độ sáng');
+      } else {
+        app.classList.replace('dark-mode', 'light-mode');
+        btnThemeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        btnThemeToggle.setAttribute('aria-label', 'Chuyển sang chế độ tối');
+      }
+    });
+
+    // Clear chat
+    btnClearChat.addEventListener('click', () => {
+      if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử chat không?')) {
+        chatLog.innerHTML = '';
+        appendMessage(createMessage('Chào bạn! Mình là <strong>LHChat</strong>, hỏi gì cũng được nhé! 😊', 'bot'));
+      }
+    });
+
+    // Help modal toggle
+    btnHelp.addEventListener('click', () => {
+      modalHelp.classList.remove('hidden');
+      modalHelp.querySelector('.modal-body').focus();
+    });
+    modalClose.addEventListener('click', () => {
+      modalHelp.classList.add('hidden');
+      userInput.focus();
+    });
+
+    // Close modal on outside click
+    modalHelp.addEventListener('click', (e) => {
+      if (e.target === modalHelp) {
+        modalHelp.classList.add('hidden');
+        userInput.focus();
+      }
+    });
+
+    // Initial focus on input
+    window.addEventListener('load', () => {
+      userInput.focus();
+    });
+
+  </script>
+
+</body>
+</html>
+<form id="chat-form">
+  <input id="chat-input" type="text" placeholder="Nhập câu hỏi..." autocomplete="off" />
+  <button type="submit">Gửi</button>
+</form>
+<div id="chat-box" style="height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;"></div>
+

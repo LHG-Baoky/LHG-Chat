@@ -1,0 +1,707 @@
+/* Reset và thiết lập cơ bản */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f0f4f8;
+  color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Phần header hoặc tiêu đề nếu cần */
+header {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10a37f;
+}
+
+/* Khung chứa toàn bộ chatbot */
+#chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+/* Khung chat hiển thị tin nhắn */
+#chat-log {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Tin nhắn người dùng */
+.message.user {
+  align-self: flex-end;
+  background-color: #10a37f;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  max-width: 70%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Tin nhắn của bot */
+.message.bot {
+  align-self: flex-start;
+  background-color: #e9ebee;
+  color: #111;
+  padding: 12px 16px;
+  border-radius: 18px 18px 18px 4px;
+  max-width: 70%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Thanh nhập tin nhắn */
+#input-area {
+  display: flex;
+  padding: 16px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+}
+
+#user-input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 18px;
+  outline: none;
+}
+
+#send-button {
+  margin-left: 12px;
+  background-color: #10a37f;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#send-button:hover {
+  background-color: #0e8c6d;
+}
+
+/* Hiệu ứng đang gõ */
+.typing-indicator {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.typing-indicator span {
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(1) {
+  left: 0px;
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  left: 15px;
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  left: 30px;
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% { opacity: 0.2; transform: translateY(0); }
+  20% { opacity: 1; transform: translateY(-4px); }
+  100% { opacity: 0.2; transform: translateY(0); }
+}
+
+/* Cuộn mượt */
+#chat-log {
+  scroll-behavior: smooth;
+}
+
+/* Hiệu ứng xuất hiện tin nhắn */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #chat-container {
+    padding: 0 10px;
+  }
+
+  #user-input {
+    font-size: 14px;
+  }
+
+  #send-button {
+    padding: 10px 16px;
+  }
+
+  .message.user, .message.bot {
+    max-width: 90%;
+  }
+}
+
+/* Import font đẹp từ Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Reset cơ bản */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #222;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#chat-container {
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(16, 163, 127, 0.24);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #d1e3dd;
+}
+
+/* Header */
+header {
+  background: #10a37f;
+  color: white;
+  font-weight: 600;
+  font-size: 1.8rem;
+  padding: 20px 32px;
+  text-align: center;
+  letter-spacing: 1.2px;
+  box-shadow: 0 4px 10px rgba(16, 163, 127, 0.3);
+  user-select: text;
+}
+
+/* Chat log chứa tất cả tin nhắn */
+#chat-log {
+  flex: 1;
+  padding: 24px 36px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #10a37f transparent;
+  background: #f9fdfb;
+}
+
+/* Custom scrollbar cho Chrome, Edge */
+#chat-log::-webkit-scrollbar {
+  width: 10px;
+}
+#chat-log::-webkit-scrollbar-track {
+  background: transparent;
+}
+#chat-log::-webkit-scrollbar-thumb {
+  background-color: #10a37f;
+  border-radius: 10px;
+  border: 3px solid transparent;
+}
+
+/* Căn tin nhắn người dùng bên phải */
+.message.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #10a37f 0%, #0d846b 100%);
+  color: #ffffff;
+  max-width: 65%;
+  padding: 14px 22px;
+  border-radius: 30px 30px 4px 30px;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  box-shadow: 0 8px 20px rgba(16, 163, 127, 0.35);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Căn tin nhắn bot bên trái */
+.message.bot {
+  align-self: flex-start;
+  background: #f0f4f8;
+  color: #111;
+  max-width: 70%;
+  padding: 16px 20px;
+  border-radius: 30px 30px 30px 4px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 20px rgba(16, 163, 127, 0.15);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+/* Avatar cho người dùng */
+.message.user .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: url('https://i.imgur.com/6VBx3io.png') no-repeat center/cover;
+  box-shadow: 0 0 5px rgba(16, 163, 127, 0.8);
+  flex-shrink: 0;
+}
+
+/* Avatar cho bot */
+.message.bot .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: url('https://i.imgur.com/9YtbX7r.png') no-repeat center/cover;
+  flex-shrink: 0;
+}
+
+/* Nội dung tin nhắn */
+.message .text {
+  flex: 1;
+}
+
+/* Khu vực nhập tin nhắn */
+#input-area {
+  padding: 20px 32px;
+  background: linear-gradient(90deg, #e8faf3, #d6f1ea);
+  display: flex;
+  gap: 16px;
+  border-top: 1px solid #c3e2d6;
+}
+
+/* Ô nhập tin nhắn */
+#user-input {
+  flex: 1;
+  border-radius: 36px;
+  border: 1.5px solid #10a37f;
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-shadow: inset 0 1px 5px rgb(16 163 127 / 0.2);
+}
+
+#user-input:focus {
+  border-color: #0d846b;
+  box-shadow: 0 0 10px #0d846baa;
+}
+
+/* Nút gửi */
+#send-button {
+  background: #10a37f;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 36px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 12px rgb(16 163 127 / 0.6);
+}
+
+#send-button:hover {
+  background: #0e8c6d;
+  box-shadow: 0 6px 18px rgb(13 134 107 / 0.9);
+}
+
+/* Hiệu ứng nút nhấn */
+#send-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 8px rgb(13 134 107 / 0.9);
+}
+
+/* Dots đang gõ hiệu ứng */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+}
+
+.typing-indicator span {
+  width: 12px;
+  height: 12px;
+  background-color: #10a37f;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: blinkDots 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0;
+}
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* Animation cho dots nhấp nháy */
+@keyframes blinkDots {
+  0%, 80%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+}
+
+/* Animation fade in và dịch lên */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #chat-container {
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  #chat-log {
+    padding: 16px 20px;
+  }
+
+  #input-area {
+    padding: 16px 20px;
+  }
+
+  #user-input {
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+
+  #send-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .message.user, .message.bot {
+    max-width: 90%;
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  background-color: #4F46E5;
+  color: white;
+  padding: 16px 32px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.chat-container {
+  flex-grow: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.5;
+  font-size: 16px;
+  position: relative;
+}
+
+.user .bubble {
+  background-color: #4F46E5;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.bot .bubble {
+  background-color: #E5E7EB;
+  color: #111827;
+  border-bottom-left-radius: 4px;
+}
+
+/* Vùng nhập */
+.input-area {
+  display: flex;
+  padding: 16px;
+  border-top: 1px solid #ddd;
+  background-color: #fafafa;
+}
+
+#user-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+#send-button {
+  padding: 12px 20px;
+  background-color: #4F46E5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#send-button:hover {
+  background-color: #4338ca;
+}
+
+/* Loading dots */
+.dot {
+  height: 8px;
+  width: 8px;
+  margin: 0 2px;
+  background-color: #4F46E5;
+  border-radius: 50%;
+  display: inline-block;
+  animation: blink 1.4s infinite both;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%, 80%, 100% {
+    transform: scale(0);
+  } 
+  40% {
+    transform: scale(1);
+  }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LHGChat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #e9efff, #ffffff);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 800px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 20px;
+      background: #4f46e5;
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f9fafb;
+    }
+
+    .message {
+      max-width: 70%;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      border-radius: 16px;
+      line-height: 1.6;
+      font-size: 16px;
+      word-wrap: break-word;
+    }
+
+    .message.bot {
+      background: #eef2ff;
+      align-self: flex-start;
+      color: #333;
+    }
+
+    .message.user {
+      background: #4f46e5;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 15px 20px;
+      border-top: 1px solid #e0e0e0;
+      background: #fff;
+    }
+
+    .chat-input textarea {
+      flex: 1;
+      resize: none;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 16px;
+      outline: none;
+      height: 45px;
+    }
+
+    .chat-input button {
+      margin-left: 10px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .chat-input button:hover {
+      background: #3730a3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      🤖 LHGChat - Trợ lý của bạn
+    </div>
+    <div class="chat-messages" id="chat">
+      <div class="message bot">Chào bạn! Mình là <strong>LHGChat</strong>, hỏi gì cũng được nhé! 😊</div>
+    </div>
+    <div class="chat-input">
+      <textarea id="user-input" placeholder="Nhập câu hỏi..."></textarea>
+      <button onclick="sendMessage()">Gửi</button>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const chat = document.getElementById('chat');
+      const text = input.value.trim();
+      if (text === '') return;
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.innerText = text;
+      chat.appendChild(userMsg);
+
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot';
+      botMsg.innerText = 'Bạn vừa nói: ' + text + '\n(Phản hồi thực tế sẽ đến từ server hoặc API ChatGPT)';
+      setTimeout(() => chat.appendChild(botMsg), 600);
+
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
+
